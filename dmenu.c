@@ -201,6 +201,11 @@ void keypress(struct dmenu_panel *panel, enum wl_keyboard_key_state state,
 	default:
 		if (xkb_keysym_to_utf8(sym, buf, 8)) {
 			insert(buf, strnlen(buf, 8));
+			if (returnearly && sel && !sel->right && !sel->left) {
+				dmenu_close(panel);
+				fputs((sel && !shft) ? sel->text : text, stdout);
+				fflush(stdout);
+			}
 		}
 	}
 	dmenu_draw(panel);
